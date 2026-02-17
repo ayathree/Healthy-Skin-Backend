@@ -1,9 +1,10 @@
 import app from "./app";
+import { envVars } from "./config/env";
 
 const bootstrap = () => {
     try {
-        app.listen(3000, () => {
-            console.log(`HealthySkin Server is running on http://localhost:3000`);
+        app.listen(envVars.PORT, () => {
+            console.log(`HealthySkin Server is running on http://localhost:${envVars.PORT}`);
         });
 
 
