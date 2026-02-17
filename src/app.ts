@@ -1,6 +1,9 @@
-import express, { Application, Request, Response } from "express";
+import express, { Application, NextFunction, Request, Response } from "express";
 
 import { IndexRoutes } from "./app/route";
+import { success } from "better-auth";
+import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
+import { notFound } from "./app/middleware/notFound";
 
 const app: Application = express();
 
@@ -11,6 +14,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use('/api/v1', IndexRoutes)
+
+
+app.use(globalErrorHandler)
+app.use(notFound)
 
 
 
