@@ -3,6 +3,7 @@ import { Role, User, UserStatus } from "../../../generated/prisma/client";
 import AppError from "../../errorHelper/appError";
 import { auth } from "../../lib/auth";
 import { prisma } from "../../lib/prisma";
+import { tokenUtils } from "../../utils/token";
 
 
 interface IRegisterPatientPayload {
@@ -42,8 +43,30 @@ const registerPatient = async (payload: IRegisterPatientPayload) => {
             return patientTx
         })
 
+        const accessToken = tokenUtils.getAccessToken({
+            userId: data.user.id,
+            role: data.user.role,
+            name: data.user.name,
+            email: data.user.email,
+            status: data.user.status,
+            isDeleted: data.user.isDeleted,
+            emailVerified: data.user.emailVerified
+        })
+
+        const refreshToken = tokenUtils.getRefreshToken({
+            userId: data.user.id,
+            role: data.user.role,
+            name: data.user.name,
+            email: data.user.email,
+            status: data.user.status,
+            isDeleted: data.user.isDeleted,
+            emailVerified: data.user.emailVerified
+        })
+
         return {
             ...data,
+            accessToken,
+            refreshToken,
             patient
         }
 
@@ -79,7 +102,40 @@ const loginUser = async (payload: ILoginPatientPayload) => {
     if (data.user.isDeleted || data.user.status === UserStatus.DELETED) {
         throw new AppError(status.NOT_FOUND, "User is deleted")
     }
-    return data
+
+    //jwt
+    const accessToken = tokenUtils.getAccessToken({
+        userId: data.user.id,
+        role: data.user.role,
+        name: data.user.name,
+        email: data.user.email,
+        status: data.user.status,
+        isDeleted: data.user.isDeleted,
+        emailVerified: data.user.emailVerified
+    })
+
+    const refreshToken = tokenUtils.getRefreshToken({
+        userId: data.user.id,
+        role: data.user.role,
+        name: data.user.name,
+        email: data.user.email,
+        status: data.user.status,
+        isDeleted: data.user.isDeleted,
+        emailVerified: data.user.emailVerified
+    })
+
+
+
+
+
+
+
+
+    return {
+        ...data,
+        accessToken,
+        refreshToken
+    }
 
 }
 
