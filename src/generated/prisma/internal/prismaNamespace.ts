@@ -1124,6 +1124,7 @@ export const AdminScalarFieldEnum = {
   profilePhoto: 'profilePhoto',
   contactNumber: 'contactNumber',
   isDeleted: 'isDeleted',
+  deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   userId: 'userId'

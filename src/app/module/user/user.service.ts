@@ -4,6 +4,7 @@ import AppError from "../../errorHelper/appError";
 import { auth } from "../../lib/auth";
 import { prisma } from "../../lib/prisma";
 import { ICreateAdmin, ICreateDoctorPayload, ICreateSuperAdmin } from "./user.interface";
+import { tokenUtils } from "../../utils/token";
 
 const createDoctor = async (payload: ICreateDoctorPayload) => {
     const specialties: Specialty[] = []
@@ -110,8 +111,35 @@ const createDoctor = async (payload: ICreateDoctorPayload) => {
             })
 
             return doctor
+
+
         })
-        return result
+
+        const accessToken = tokenUtils.getAccessToken({
+            userId: userData.user.id,
+            role: userData.user.role,
+            name: userData.user.name,
+            email: userData.user.email,
+            status: userData.user.status,
+            isDeleted: userData.user.isDeleted,
+            emailVerified: userData.user.emailVerified
+        })
+
+        const refreshToken = tokenUtils.getRefreshToken({
+            userId: userData.user.id,
+            role: userData.user.role,
+            name: userData.user.name,
+            email: userData.user.email,
+            status: userData.user.status,
+            isDeleted: userData.user.isDeleted,
+            emailVerified: userData.user.emailVerified
+        })
+        return {
+            ...userData,
+            accessToken,
+            refreshToken,
+            result
+        }
 
     } catch (error) {
         console.log("Transaction error : ", error);
@@ -173,6 +201,7 @@ const createAdmin = async (payload: ICreateAdmin) => {
                     profilePhoto: true,
                     contactNumber: true,
                     isDeleted: true,
+                    deletedAt: true,
                     createdAt: true,
                     updatedAt: true,
                     user: {
@@ -190,7 +219,32 @@ const createAdmin = async (payload: ICreateAdmin) => {
             return createdAdmin;
         });
 
-        return result;
+        const accessToken = tokenUtils.getAccessToken({
+            userId: userData.user.id,
+            role: userData.user.role,
+            name: userData.user.name,
+            email: userData.user.email,
+            status: userData.user.status,
+            isDeleted: userData.user.isDeleted,
+            emailVerified: userData.user.emailVerified
+        })
+
+        const refreshToken = tokenUtils.getRefreshToken({
+            userId: userData.user.id,
+            role: userData.user.role,
+            name: userData.user.name,
+            email: userData.user.email,
+            status: userData.user.status,
+            isDeleted: userData.user.isDeleted,
+            emailVerified: userData.user.emailVerified
+        })
+
+        return {
+            ...userData,
+            accessToken,
+            refreshToken,
+            result
+        };
     } catch (error) {
         // Cleanup: Delete user if admin creation fails
         await prisma.user.delete({
@@ -248,6 +302,7 @@ const createSuperAdmin = async (payload: ICreateSuperAdmin) => {
                     profilePhoto: true,
                     contactNumber: true,
                     isDeleted: true,
+                    deletedAt: true,
                     createdAt: true,
                     updatedAt: true,
                     user: {
@@ -265,7 +320,32 @@ const createSuperAdmin = async (payload: ICreateSuperAdmin) => {
             return createdAdmin;
         });
 
-        return result;
+        const accessToken = tokenUtils.getAccessToken({
+            userId: userData.user.id,
+            role: userData.user.role,
+            name: userData.user.name,
+            email: userData.user.email,
+            status: userData.user.status,
+            isDeleted: userData.user.isDeleted,
+            emailVerified: userData.user.emailVerified
+        })
+
+        const refreshToken = tokenUtils.getRefreshToken({
+            userId: userData.user.id,
+            role: userData.user.role,
+            name: userData.user.name,
+            email: userData.user.email,
+            status: userData.user.status,
+            isDeleted: userData.user.isDeleted,
+            emailVerified: userData.user.emailVerified
+        })
+
+        return {
+            ...userData,
+            accessToken,
+            refreshToken,
+            result
+        };
     } catch (error) {
         // Cleanup: Delete user if admin creation fails
         await prisma.user.delete({
