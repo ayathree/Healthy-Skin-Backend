@@ -1,9 +1,11 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { UserController } from "./user.controller";
 import z from "zod";
-import { Gender } from "../../../generated/prisma/enums";
+import { Gender, Role } from "../../../generated/prisma/enums";
 import { validateRequest } from "../../middleware/validateRequest";
-import { createDoctorZodSchema } from "./user.validation";
+import { UserValidation } from "./user.validation";
+import { checkAuth } from "../../middleware/checkAuthFile";
+
 
 
 
@@ -30,8 +32,26 @@ router.post("/create-doctor",
 
     // }, 
 
-    validateRequest(createDoctorZodSchema),
+    validateRequest(UserValidation.createDoctorZodSchema),
 
     UserController.createdDoctor);
+
+
+router.post(
+    "/create-admin",
+    checkAuth(Role.SUPER_ADMIN), // Only super admin can create admin
+    validateRequest(UserValidation.createAdminValidationSchema),
+    UserController.createAdmin,
+);
+
+
+
+
+router.post(
+    "/create-super-admin",
+    checkAuth(Role.SUPER_ADMIN), // Only super admin can create super admin
+    validateRequest(UserValidation.createSuperAdminValidationSchema),
+    UserController.createSuperAdmin,
+);
 
 export const UserRoutes = router

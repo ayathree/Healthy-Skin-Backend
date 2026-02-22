@@ -20,3 +20,23 @@ export interface ICreateDoctorPayload {
 
     specialities: string[]
 }
+
+export interface ICreateAdmin {
+    password: string;
+    admin: {
+        name: string;
+        email: string;
+        contactNumber?: string;
+        profilePhoto?: string;
+    };
+}
+
+export interface ICreateSuperAdmin {
+    password: string;
+    admin: {
+        name: string;
+        email: string;
+        contactNumber?: string;
+        profilePhoto?: string;
+    };
+}
