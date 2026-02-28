@@ -68,6 +68,16 @@ export type PatientHealthData = Prisma.PatientHealthDataModel
  */
 export type Patient = Prisma.PatientModel
 /**
+ * Model Payment
+ * 
+ */
+export type Payment = Prisma.PaymentModel
+/**
+ * Model Prescription
+ * 
+ */
+export type Prescription = Prisma.PrescriptionModel
+/**
  * Model Review
  * 
  */

@@ -17,20 +17,7 @@ const router = Router();
 
 router.post("/create-doctor",
 
-    //     (req: Request, res: Response, next: NextFunction) => {
-
-
-    //     const parseResult = createDoctorZodSchema.safeParse(req.body);
-
-    //     if (!parseResult.success) {
-    //         next(parseResult.error)
-    //     }
-    //     req.body = parseResult.data
-
-
-    //     next()
-
-    // }, 
+    checkAuth(Role.SUPER_ADMIN, Role.ADMIN), // Only super admin and admin can create doctor
 
     validateRequest(UserValidation.createDoctorZodSchema),
 

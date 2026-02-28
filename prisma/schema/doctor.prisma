@@ -26,7 +26,11 @@ model Doctor {
     appointments    Appointment[]
     reviews         Review[]
     medicalReports  MedicalReport[]
+    payments        Payment[]
+    prescriptions   Prescription[]
 
+    @@index([name], name: "idx_doctor_name")
+    @@index([registrationNumber], name: "idx_doctor_registrationNumber")
     @@index([email], name: "idx_doctor_email")
     @@index([isDeleted], name: "idx_doctor_isDeleted")
     @@map("doctor")
