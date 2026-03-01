@@ -1,3 +1,6 @@
+import status from "http-status";
+import AppError from "../../errorHelper/appError";
+import { IRequestUser } from "../../interfaces/requestUser.interface";
 import { prisma } from "../../lib/prisma";
 import { IUpdateDoctor } from "../doctor/doctor.interface";
 import { IUpdateadmin } from "./admin.interface";
@@ -67,7 +70,7 @@ const updateAdmin = async (id: string, payload: IUpdateadmin) => {
 
 }
 
-const softDeleteAdmin = async (id: string) => {
+const softDeleteAdmin = async (id: string, user: IRequestUser) => {
     // Check if admin exists and not already deleted
     const admin = await prisma.admin.findUnique({
         where: { id },
@@ -75,6 +78,10 @@ const softDeleteAdmin = async (id: string) => {
 
     if (!admin) {
         throw new Error("Admin not found");
+    }
+
+    if (admin.id === user.userId) {
+        throw new AppError(status.BAD_REQUEST, "You cannot delete yourself")
     }
 
     if (admin.isDeleted) {
