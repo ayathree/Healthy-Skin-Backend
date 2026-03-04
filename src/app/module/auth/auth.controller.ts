@@ -193,6 +193,11 @@ const resetPassword = catchAsync(
     }
 )
 
+const googleLogin = catchAsync((req: Request, res: Response) => { })
+const googleLoginSuccess = catchAsync((req: Request, res: Response) => { })
+const handleOAuthError = catchAsync((req: Request, res: Response) => { })
+
 export const AuthController = {
-    registerPatient, loginPatient, getMe, getNewToken, changePassword, logoutUser, verifyEmail, forgetPassword, resetPassword
+    registerPatient, loginPatient, getMe, getNewToken, changePassword, logoutUser, verifyEmail, forgetPassword, resetPassword,
+    googleLogin, googleLoginSuccess, handleOAuthError
 }

@@ -395,6 +395,9 @@ const resetPassword = async (email: string, otp: string, newPassword: string) =>
     })
 }
 
+const googleLoginSuccess = async () => { }
+
 export const AuthService = {
-    registerPatient, loginUser, getMe, getNewToken, changePassword, logoutUser, verifyEmail, forgetPassword, resetPassword
+    registerPatient, loginUser, getMe, getNewToken, changePassword, logoutUser, verifyEmail, forgetPassword, resetPassword,
+    googleLoginSuccess
 }
