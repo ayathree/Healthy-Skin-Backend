@@ -5,7 +5,7 @@ import { auth } from "../../lib/auth";
 import { prisma } from "../../lib/prisma";
 import { tokenUtils } from "../../utils/token";
 import { IRequestUser } from "../../interfaces/requestUser.interface";
-import { tr } from "zod/v4/locales";
+import { is, tr } from "zod/v4/locales";
 import { jwtUtils } from "../../utils/jwt";
 import { envVars } from "../../config/env";
 import { JwtPayload } from "jsonwebtoken";
@@ -374,6 +374,19 @@ const resetPassword = async (email: string, otp: string, newPassword: string) =>
             password: newPassword
         }
     })
+
+    if (isUserExist.needPasswordChange) {
+        await prisma.user.update({
+            where: {
+                id: isUserExist.id
+            },
+            data: {
+                needPasswordChange: false,
+
+
+            }
+        })
+    }
 
     await prisma.session.deleteMany({
         where: {
