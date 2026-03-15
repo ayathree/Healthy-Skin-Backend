@@ -7,7 +7,7 @@ import { DoctorValidation } from "./doctor.validation";
 
 const route = Router();
 route.get("/",
-    //  checkAuth(Role.ADMIN, Role.SUPER_ADMIN, Role.DOCTOR),
+    checkAuth(Role.ADMIN, Role.SUPER_ADMIN, Role.DOCTOR),
     DoctorController.getDoctors)
 route.get(
     "/:id",
