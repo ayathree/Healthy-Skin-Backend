@@ -17,7 +17,7 @@ const router = Router();
 
 router.post("/create-doctor",
 
-    checkAuth(Role.SUPER_ADMIN, Role.ADMIN), // Only super admin and admin can create doctor
+    // checkAuth(Role.SUPER_ADMIN, Role.ADMIN), // Only super admin and admin can create doctor
 
     validateRequest(UserValidation.createDoctorZodSchema),
 
