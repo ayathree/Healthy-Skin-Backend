@@ -1,0 +1,29 @@
+import { Router } from "express";
+import { checkAuth } from "../../middleware/checkAuthFile";
+import { Role } from "../../../generated/prisma/enums";
+import { appointmentController } from "./appointment.controller";
+
+const router = Router();
+
+router.post('/book-appointment',
+    checkAuth(Role.PATIENT),
+    appointmentController.bookAppointment
+);
+router.get('/my-appointments',
+    checkAuth(Role.PATIENT, Role.DOCTOR),
+    appointmentController.getMyAppointments
+);
+router.patch('/change-appointment-status/:id',
+    checkAuth(Role.PATIENT, Role.DOCTOR),
+    appointmentController.changeAppointmentStatus
+);
+router.get('/my-single-appointment/:id',
+    checkAuth(Role.PATIENT, Role.DOCTOR),
+    appointmentController.getMySingleAppointment
+);
+router.get('/all-appointments',
+    checkAuth(Role.ADMIN, Role.SUPER_ADMIN),
+    appointmentController.getAllApointments
+);
+
+export const appointmentRoutes = router
