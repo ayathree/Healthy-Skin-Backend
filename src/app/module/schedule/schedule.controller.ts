@@ -5,7 +5,8 @@ import status from "http-status";
 import { scheduleService } from "./schedule.service";
 
 const createSchedule = catchAsync((req: Request, res: Response) => {
-    const schedule = scheduleService.createSchedule();
+    const payload = req.body
+    const schedule = scheduleService.createSchedule(payload);
     sendResponse(res, {
         success: true,
         httpStatusCode: status.CREATED,
@@ -15,7 +16,7 @@ const createSchedule = catchAsync((req: Request, res: Response) => {
 })
 
 const getAllSchedule = catchAsync((req: Request, res: Response) => {
-    const schedules = scheduleService.getAllSchedule();
+    const schedules = scheduleService.getAllSchedule(req.query as any);
     sendResponse(res, {
         success: true,
         httpStatusCode: status.OK,
@@ -25,7 +26,7 @@ const getAllSchedule = catchAsync((req: Request, res: Response) => {
 })
 
 const getScheduleById = catchAsync((req: Request, res: Response) => {
-    const schedule = scheduleService.getScheduleById();
+    const schedule = scheduleService.getScheduleById(req.params.id as string);
     sendResponse(res, {
         success: true,
         httpStatusCode: status.OK,
@@ -35,7 +36,7 @@ const getScheduleById = catchAsync((req: Request, res: Response) => {
 })
 
 const updateSchedule = catchAsync((req: Request, res: Response) => {
-    const schedule = scheduleService.updateSchedule();
+    const schedule = scheduleService.updateSchedule(req.params.id as string, req.body);
     sendResponse(res, {
         success: true,
         httpStatusCode: status.OK,
@@ -45,7 +46,7 @@ const updateSchedule = catchAsync((req: Request, res: Response) => {
 })
 
 const deleteSchedule = catchAsync((req: Request, res: Response) => {
-    const schedule = scheduleService.deleteSchedule();
+    const schedule = scheduleService.deleteSchedule(req.params.id as string);
     sendResponse(res, {
         success: true,
         httpStatusCode: status.OK,
