@@ -26,7 +26,7 @@ model Doctor {
     appointments    Appointment[]
     reviews         Review[]
     medicalReports  MedicalReport[]
-    payments        Payment[]
+    // payments        Payment[]
     prescriptions   Prescription[]
 
     @@index([name], name: "idx_doctor_name")
