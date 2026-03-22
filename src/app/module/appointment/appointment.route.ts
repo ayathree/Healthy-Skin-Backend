@@ -25,5 +25,7 @@ router.get('/all-appointments',
     checkAuth(Role.ADMIN, Role.SUPER_ADMIN),
     appointmentController.getAllApointments
 );
+router.post("/book-appointment-with-pay-later", checkAuth(Role.PATIENT), appointmentController.bookAppointmentWithPayLater);
+router.post("/initiate-payment/:id", checkAuth(Role.PATIENT), appointmentController.initiatePayment)
 
 export const appointmentRoutes = router

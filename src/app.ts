@@ -11,6 +11,7 @@ import path from "path";
 import cors from "cors"
 import { envVars } from "./app/config/env";
 import qs from "qs"
+import { PaymentController } from "./app/module/payment/payment.controller";
 
 const app: Application = express();
 
@@ -18,6 +19,9 @@ app.set("query parser", (str: string) => qs.parse(str))
 
 app.set("view engine", "ejs");
 app.set("views", path.resolve(process.cwd(), `src/app/template`))
+
+app.post("/webhook", express.raw({ type: "application/json" }), PaymentController.handleStripeWebhookEvent
+)
 
 app.use(cors({
     origin: [envVars.FRONTEND_URL, envVars.BETTER_AUTH_URL, "http://localhost:3000", "http://localhost:4000"],
